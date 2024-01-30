@@ -1,0 +1,2 @@
+Invoking command in '/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/build/ruka': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/iron /usr/bin/cmake /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka -DCMAKE_INSTALL_PREFIX=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/install/ruka
+Invoked command in '/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/build/ruka' returned '-2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/iron /usr/bin/cmake /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka -DCMAKE_INSTALL_PREFIX=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/install/ruka
