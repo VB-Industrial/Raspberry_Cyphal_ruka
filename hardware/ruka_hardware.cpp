@@ -46,6 +46,20 @@ void heartbeat() {
     uptime += 1;
 }
 
+
+class HBeatReader: public AbstractSubscription<HBeat> {
+public:
+    HBeatReader(InterfacePtr interface): AbstractSubscription<HBeat>(interface,
+        // Тут параметры - port_id, transfer kind или только port_id
+        uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_
+    ) {};
+    void handler(const uavcan_node_Heartbeat_1_0& hbeat, CanardRxTransfer* transfer) override {
+        std::cout << +transfer->metadata.remote_node_id << ": " << hbeat.uptime <<  std::endl;
+    }
+};
+
+HBeatReader * reader;
+
 namespace joint_trajectory_controller
 {
 CallbackReturn JointTrajectoryController::on_init(const hardware_interface::HardwareInfo & info)
@@ -56,6 +70,7 @@ CallbackReturn JointTrajectoryController::on_init(const hardware_interface::Hard
   }
 
   cy_interface = CyphalInterface::create_heap<LinuxCAN, O1Allocator>(100, "can0", 1000, utilities);
+  reader = new HBeatReader(cy_interface);
 
   // robot has 6 joints and 2 interfaces
   joint_position_.assign(6, 0);
@@ -163,9 +178,9 @@ return_type JointTrajectoryController::write(const rclcpp::Time &, const rclcpp:
  if (itera > 100)
  {
     heartbeat();
+    std::cout<<"HB sent"<<std::endl;
     itera = 0;
   }
-  std::cout<<"pamagiti"<<std::endl;
   cy_interface->loop();
   itera++;
   return return_type::OK;
@@ -178,9 +193,3 @@ return_type JointTrajectoryController::write(const rclcpp::Time &, const rclcpp:
 
 PLUGINLIB_EXPORT_CLASS(
   joint_trajectory_controller::JointTrajectoryController, hardware_interface::SystemInterface)
-
-
-
-
-
-
