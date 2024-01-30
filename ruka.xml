@@ -1,0 +1,10 @@
+<library path="ruka">
+  <class name="joint_trajectory_controller/JointTrajectoryController"
+         type="joint_trajectory_controller::JointTrajectoryController"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Robot hardware plugin for 6 dof robot tutorial.
+    </description>
+  </class>
+
+</library>
