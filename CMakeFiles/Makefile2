@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka
+CMAKE_SOURCE_DIR = /home/pi/ws_ruka/src/ruka
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka
+CMAKE_BINARY_DIR = /home/pi/ws_ruka/src/ruka
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -135,14 +135,14 @@ build/libcxxcanard/build/o1heap/clean: build/libcxxcanard/build/o1heap/CMakeFile
 CMakeFiles/uninstall.dir/all: CMakeFiles/ruka_uninstall.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/uninstall.dir/build.make CMakeFiles/uninstall.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/uninstall.dir/build.make CMakeFiles/uninstall.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles --progress-num= "Built target uninstall"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/ruka/CMakeFiles --progress-num= "Built target uninstall"
 .PHONY : CMakeFiles/uninstall.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/uninstall.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/uninstall.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : CMakeFiles/uninstall.dir/rule
 
 # Convenience name for target.
@@ -161,14 +161,14 @@ CMakeFiles/uninstall.dir/clean:
 CMakeFiles/ruka_uninstall.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ruka_uninstall.dir/build.make CMakeFiles/ruka_uninstall.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ruka_uninstall.dir/build.make CMakeFiles/ruka_uninstall.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles --progress-num= "Built target ruka_uninstall"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/ruka/CMakeFiles --progress-num= "Built target ruka_uninstall"
 .PHONY : CMakeFiles/ruka_uninstall.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ruka_uninstall.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ruka_uninstall.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : CMakeFiles/ruka_uninstall.dir/rule
 
 # Convenience name for target.
@@ -187,14 +187,14 @@ CMakeFiles/ruka_uninstall.dir/clean:
 CMakeFiles/ruka.dir/all: build/libcxxcanard/CMakeFiles/libcxxcanard.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ruka.dir/build.make CMakeFiles/ruka.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ruka.dir/build.make CMakeFiles/ruka.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles --progress-num=12,13 "Built target ruka"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/ruka/CMakeFiles --progress-num=12,13 "Built target ruka"
 .PHONY : CMakeFiles/ruka.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ruka.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ruka.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : CMakeFiles/ruka.dir/rule
 
 # Convenience name for target.
@@ -214,14 +214,14 @@ build/libcxxcanard/CMakeFiles/libcxxcanard.dir/all: build/libcxxcanard/build/lib
 build/libcxxcanard/CMakeFiles/libcxxcanard.dir/all: build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/all
 	$(MAKE) $(MAKESILENT) -f build/libcxxcanard/CMakeFiles/libcxxcanard.dir/build.make build/libcxxcanard/CMakeFiles/libcxxcanard.dir/depend
 	$(MAKE) $(MAKESILENT) -f build/libcxxcanard/CMakeFiles/libcxxcanard.dir/build.make build/libcxxcanard/CMakeFiles/libcxxcanard.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles --progress-num=2,3,4,5,6,7,8,9,10 "Built target libcxxcanard"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/ruka/CMakeFiles --progress-num=2,3,4,5,6,7,8,9,10 "Built target libcxxcanard"
 .PHONY : build/libcxxcanard/CMakeFiles/libcxxcanard.dir/all
 
 # Build rule for subdir invocation for target.
 build/libcxxcanard/CMakeFiles/libcxxcanard.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 11
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build/libcxxcanard/CMakeFiles/libcxxcanard.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : build/libcxxcanard/CMakeFiles/libcxxcanard.dir/rule
 
 # Convenience name for target.
@@ -240,14 +240,14 @@ build/libcxxcanard/CMakeFiles/libcxxcanard.dir/clean:
 build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/all:
 	$(MAKE) $(MAKESILENT) -f build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/build.make build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/depend
 	$(MAKE) $(MAKESILENT) -f build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/build.make build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles --progress-num=1 "Built target libcanard"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/ruka/CMakeFiles --progress-num=1 "Built target libcanard"
 .PHONY : build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/all
 
 # Build rule for subdir invocation for target.
 build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/rule
 
 # Convenience name for target.
@@ -266,14 +266,14 @@ build/libcxxcanard/build/libcanard/CMakeFiles/libcanard.dir/clean:
 build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/all:
 	$(MAKE) $(MAKESILENT) -f build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/build.make build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/depend
 	$(MAKE) $(MAKESILENT) -f build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/build.make build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles --progress-num=11 "Built target o1heap"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/ws_ruka/src/ruka/CMakeFiles --progress-num=11 "Built target o1heap"
 .PHONY : build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/all
 
 # Build rule for subdir invocation for target.
 build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : build/libcxxcanard/build/o1heap/CMakeFiles/o1heap.dir/rule
 
 # Convenience name for target.

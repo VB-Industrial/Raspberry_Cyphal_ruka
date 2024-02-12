@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka
+CMAKE_SOURCE_DIR = /home/pi/ws_ruka/src/ruka
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka
+CMAKE_BINARY_DIR = /home/pi/ws_ruka/src/ruka
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles /home/pi/ws_ruka/src/ruka//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/ws_ruka/src/ruka/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

@@ -1,14 +1,21 @@
 # This config file is used by ros2_control
 controller_manager:
   ros__parameters:
-    update_rate: 100  # Hz
+    update_rate: 40  # Hz
 
     ruka_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-
+   # is_broadcaster:
+     # type: imu_sensor_broadcaster/IMUSensorBroadcaster
+    is_broadcaster:
+      type: imu_sensor_broadcaster/IMUSensorBroadcaster
+      
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
+      
+
+
 
 ruka_arm_controller:
   ros__parameters:
@@ -25,3 +32,14 @@ ruka_arm_controller:
     state_interfaces:
       - position
       - velocity
+      
+#is_broadcaster:
+ # ros__parameters:
+ #   sensor_name: x
+ #   frame_id: link_06
+    
+    
+is_broadcaster:
+  ros__parameters:
+    sensor_name: imu_sensor
+    frame_id: link_06

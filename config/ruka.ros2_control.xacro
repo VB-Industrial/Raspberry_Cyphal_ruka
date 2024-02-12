@@ -6,7 +6,7 @@
         <ros2_control name="${name}" type="system">
             <hardware>
                 <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-                <plugin>joint_trajectory_controller/JointTrajectoryController</plugin>
+                <plugin>ruka/RukaSystem</plugin>
             </hardware>
             <joint name="base_link__link_01">
                 <command_interface name="position"/>

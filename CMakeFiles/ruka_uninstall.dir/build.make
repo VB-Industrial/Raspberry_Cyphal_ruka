@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka
+CMAKE_SOURCE_DIR = /home/pi/ws_ruka/src/ruka
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka
+CMAKE_BINARY_DIR = /home/pi/ws_ruka/src/ruka
 
 # Utility rule file for ruka_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/ruka_uninstall.dir/compiler_depend.make
 include CMakeFiles/ruka_uninstall.dir/progress.make
 
 CMakeFiles/ruka_uninstall:
-	/usr/bin/cmake -P /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /home/pi/ws_ruka/src/ruka/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 ruka_uninstall: CMakeFiles/ruka_uninstall
 ruka_uninstall: CMakeFiles/ruka_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/ruka_uninstall.dir/clean:
 .PHONY : CMakeFiles/ruka_uninstall.dir/clean
 
 CMakeFiles/ruka_uninstall.dir/depend:
-	cd /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/CMakeFiles/ruka_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pi/ws_ruka/src/ruka && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pi/ws_ruka/src/ruka /home/pi/ws_ruka/src/ruka /home/pi/ws_ruka/src/ruka /home/pi/ws_ruka/src/ruka /home/pi/ws_ruka/src/ruka/CMakeFiles/ruka_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ruka_uninstall.dir/depend
 

@@ -1,7 +1,7 @@
 CMakeFiles/ruka.dir/hardware/ruka_hardware.cpp.o: \
- /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/hardware/ruka_hardware.cpp \
+ /home/pi/ws_ruka/src/ruka/hardware/ruka_hardware.cpp \
  /usr/include/stdc-predef.h \
- /home/pi/ws_ruka/src/Raspberry_Cyphal_ruka/hardware/include/ruka_hardware.hpp \
+ /home/pi/ws_ruka/src/ruka/hardware/include/ruka_hardware.hpp \
  /usr/include/c++/11/string \
  /usr/include/aarch64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/aarch64-linux-gnu/c++/11/bits/os_defines.h \
@@ -359,6 +359,7 @@ CMakeFiles/ruka.dir/hardware/ruka_hardware.cpp.o: \
  /opt/ros/iron/include/rclcpp_lifecycle/rclcpp_lifecycle/visibility_control.h \
  /opt/ros/iron/include/rclcpp/rclcpp/node_interfaces/detail/node_interfaces_helpers.hpp \
  /opt/ros/iron/include/hardware_interface/hardware_interface/types/hardware_interface_type_values.hpp \
+ /home/pi/ws_ruka/src/ruka/hardware/include/ruka_joints.h \
  /usr/include/c++/11/iostream \
  /home/pi/ws_ruka/libcxxcanard/cyphal/allocators/o1/o1_allocator.h \
  /home/pi/ws_ruka/libcxxcanard/libs/o1heap/o1heap.h \

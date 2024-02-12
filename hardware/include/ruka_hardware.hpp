@@ -10,14 +10,14 @@
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
-
+#include "visibility_control.h"
 using hardware_interface::return_type;
 
-namespace joint_trajectory_controller
+namespace ruka
 {
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-class HARDWARE_INTERFACE_PUBLIC JointTrajectoryController : public hardware_interface::SystemInterface
+class HARDWARE_INTERFACE_PUBLIC RukaSystem : public hardware_interface::SystemInterface
 {
 public:
   CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
