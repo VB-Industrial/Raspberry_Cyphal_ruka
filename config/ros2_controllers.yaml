@@ -13,9 +13,6 @@ controller_manager:
       
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
-      
-
-
 
 ruka_arm_controller:
   ros__parameters:
@@ -32,14 +29,12 @@ ruka_arm_controller:
     state_interfaces:
       - position
       - velocity
-      
-#is_broadcaster:
- # ros__parameters:
- #   sensor_name: x
- #   frame_id: link_06
-    
     
 is_broadcaster:
   ros__parameters:
     sensor_name: imu_sensor
     frame_id: link_06
+    static_covariance_orientation: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    static_covariance_angular_velocity: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    static_covariance_linear_acceleration: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  

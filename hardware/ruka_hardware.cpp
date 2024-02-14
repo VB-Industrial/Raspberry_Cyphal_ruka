@@ -142,6 +142,14 @@ hardware_interface::CallbackReturn RukaSensor::on_init(
   hw_sensor_states_.resize(
     info_.sensors[0].state_interfaces.size(), std::numeric_limits<double>::quiet_NaN());
 
+  std::cout<<"info_.sensors[0].state_interfaces.size() "<<info_.sensors[0].state_interfaces.size()<<std::endl;
+  std::cout<<"info_.sensors[0].name "<<info_.sensors[0].name<<std::endl;
+
+    for (uint i = 0; i < info_.sensors[0].state_interfaces.size(); i++)
+  {
+       std::cout<<"info_.sensors[0].state_interfaces[i].name "<<info_.sensors[0].state_interfaces[i].name<<std::endl;
+  }
+
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
@@ -207,8 +215,7 @@ hardware_interface::CallbackReturn RukaSensor::on_deactivate(
 hardware_interface::return_type RukaSensor::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  RCLCPP_INFO(rclcpp::get_logger("RukaSensor"), "Reading...");
+
 
   for (uint i = 0; i < hw_sensor_states_.size(); i++)
   {
@@ -217,18 +224,20 @@ hardware_interface::return_type RukaSensor::read(
     hw_sensor_states_[0] = av1;
     hw_sensor_states_[1] = av2;
     hw_sensor_states_[2] = av3;
-    hw_sensor_states_[3] = aa1;
-    hw_sensor_states_[4] = aa2;
-    hw_sensor_states_[5] = aa3;
-      //static_cast<float>(rand_r(&seed)) / (static_cast<float>(RAND_MAX / hw_sensor_change_));
-      RCLCPP_INFO(
-      rclcpp::get_logger("RukaSensor"), "Got state %f for sensor %u!",
-      hw_sensor_states_[i], i);
-  }
- // RCLCPP_INFO(
-    //rclcpp::get_logger("RukaSensor"), "Joints successfully read!");
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
+    hw_sensor_states_[3] = av3;
 
+    hw_sensor_states_[4] = aa1;
+    hw_sensor_states_[5] = aa2;
+    hw_sensor_states_[6] = aa3;
+
+    hw_sensor_states_[7] = aa1;
+    hw_sensor_states_[8] = aa2;
+    hw_sensor_states_[9] = aa3;
+
+      // RCLCPP_INFO(
+      // rclcpp::get_logger("RukaSensor"), "Got state %f for sensor %u!",
+      // hw_sensor_states_[i], i);
+  }
   return hardware_interface::return_type::OK;
 }
 

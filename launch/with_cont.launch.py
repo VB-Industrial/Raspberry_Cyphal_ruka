@@ -131,7 +131,6 @@ def generate_launch_description():
         executable="spawner",
         arguments=["ruka_arm_controller", "-c", "/controller_manager"],
     )
-
     sensor_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -164,7 +163,7 @@ def generate_launch_description():
             ros2_control_node,
             joint_state_broadcaster_spawner,
             ruka_arm_controller_spawner,
-            sensor_spawner,
+            sensor_spawner, 
             mongodb_server_node,
         ]
     )
