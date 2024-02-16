@@ -23,12 +23,13 @@
 #include "uavcan/node/Heartbeat_1_0.h"
 #include "reg/udral/physics/kinematics/rotation/Planar_0_1.h"
 #include "reg/udral/physics/kinematics/cartesian/Twist_0_1.h"
-
+#include "reg/udral/physics/kinematics/cartesian/State_0_1.h"
 
 
 TYPE_ALIAS(Twist, reg_udral_physics_kinematics_cartesian_Twist_0_1)
 TYPE_ALIAS(HBeat, uavcan_node_Heartbeat_1_0)
 TYPE_ALIAS(JS_msg, reg_udral_physics_kinematics_rotation_Planar_0_1)
+TYPE_ALIAS(State, reg_udral_physics_kinematics_cartesian_State_0_1)
 
 std::byte buffer[sizeof(CyphalInterface) + sizeof(LinuxCAN) + sizeof(O1Allocator)];
 
@@ -54,12 +55,6 @@ float j_pos_0 = 0.0;
 float j_pos_1 = 0.0;
 float j_pos_2 = 0.0;
 
-float av1 = 0.0;
-float av2 = 0.0;
-float av3 = 0.0;
-float aa1 = 0.0;
-float aa2 = 0.0;
-float aa3 = 0.0;
 
 
 class JSReader_01: public AbstractSubscription<JS_msg> {
@@ -81,31 +76,67 @@ public:
 JSReader_01 * JS_reader_01;
 
 
-class IMUReader: public AbstractSubscription<Twist> {
+// class IMUReader: public AbstractSubscription<Twist> {
+// public:
+//     IMUReader(InterfacePtr interface): AbstractSubscription<Twist>(interface,
+//         // Тут параметры - port_id, transfer kind или только port_id
+//         AGENT_IMU_PORT
+//     ) {};
+//     void handler(const reg_udral_physics_kinematics_cartesian_Twist_0_1& IMU_read, CanardRxTransfer* transfer) override {
+//         // std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
+//         // std::cout << "av1: " << IMU_read.linear.meter_per_second[0] << std::endl;
+//         // std::cout << "av2: " << IMU_read.linear.meter_per_second[1] << std::endl;
+//         // std::cout << "av3: " << IMU_read.linear.meter_per_second[2]<< std::endl;
+//         // std::cout << "aa1: " << IMU_read.angular.radian_per_second[0] << std::endl;
+//         // std::cout << "aa2: " << IMU_read.angular.radian_per_second[1] << std::endl;
+//         // std::cout << "aa3: " << IMU_read.angular.radian_per_second[2]<< std::endl;
+
+//         av1 = IMU_read.linear.meter_per_second[0];
+//         av2 = IMU_read.linear.meter_per_second[1];
+//         av3 = IMU_read.linear.meter_per_second[2];
+//         aa1 = IMU_read.angular.radian_per_second[0];
+//         aa2 = IMU_read.angular.radian_per_second[1];
+//         aa3 = IMU_read.angular.radian_per_second[2];
+//     }
+// };
+// IMUReader * IMU_reader;
+
+
+float qw = 0.0;
+float qx = 0.0;
+float qy = 0.0;
+float qz = 0.0;
+float avx = 0.0;
+float avy = 0.0;
+float avz = 0.0;
+float lax = 0.0;
+float lay = 0.0;
+float laz = 0.0;
+
+class IMUReader: public AbstractSubscription<State> {
 public:
-    IMUReader(InterfacePtr interface): AbstractSubscription<Twist>(interface,
+    IMUReader(InterfacePtr interface): AbstractSubscription<State>(interface,
         // Тут параметры - port_id, transfer kind или только port_id
         AGENT_IMU_PORT
     ) {};
-    void handler(const reg_udral_physics_kinematics_cartesian_Twist_0_1& IMU_read, CanardRxTransfer* transfer) override {
-        // std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
-        // std::cout << "av1: " << IMU_read.linear.meter_per_second[0] << std::endl;
-        // std::cout << "av2: " << IMU_read.linear.meter_per_second[1] << std::endl;
-        // std::cout << "av3: " << IMU_read.linear.meter_per_second[2]<< std::endl;
-        // std::cout << "aa1: " << IMU_read.angular.radian_per_second[0] << std::endl;
-        // std::cout << "aa2: " << IMU_read.angular.radian_per_second[1] << std::endl;
-        // std::cout << "aa3: " << IMU_read.angular.radian_per_second[2]<< std::endl;
+    void handler(const reg_udral_physics_kinematics_cartesian_State_0_1& IMU_read, CanardRxTransfer* transfer) override {
+        //std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
+        qw = IMU_read.pose.orientation.wxyz[0];
+        qx = IMU_read.pose.orientation.wxyz[1];
+        qy = IMU_read.pose.orientation.wxyz[2];
+        qz = IMU_read.pose.orientation.wxyz[3];
 
-        av1 = IMU_read.linear.meter_per_second[0];
-        av2 = IMU_read.linear.meter_per_second[1];
-        av3 = IMU_read.linear.meter_per_second[2];
-        aa1 = IMU_read.angular.radian_per_second[0];
-        aa2 = IMU_read.angular.radian_per_second[1];
-        aa3 = IMU_read.angular.radian_per_second[2];
+        lax = IMU_read.twist.linear.meter_per_second[0];
+        lay = IMU_read.twist.linear.meter_per_second[1];
+        laz = IMU_read.twist.linear.meter_per_second[2];
+
+        avx = IMU_read.twist.angular.radian_per_second[0];
+        avy = IMU_read.twist.angular.radian_per_second[1];
+        avz = IMU_read.twist.angular.radian_per_second[2];
+
     }
 };
 IMUReader * IMU_reader;
-
 
 class HBeatReader: public AbstractSubscription<HBeat> {
 public:
@@ -221,18 +252,19 @@ hardware_interface::return_type RukaSensor::read(
   {
     // Simulate RRBot's sensor data
     unsigned int seed = time(NULL) + i;
-    hw_sensor_states_[0] = av1;
-    hw_sensor_states_[1] = av2;
-    hw_sensor_states_[2] = av3;
-    hw_sensor_states_[3] = av3;
 
-    hw_sensor_states_[4] = aa1;
-    hw_sensor_states_[5] = aa2;
-    hw_sensor_states_[6] = aa3;
+    hw_sensor_states_[0] = qx;  //orientation_x_
+    hw_sensor_states_[1] = qy;  //orientation_y_
+    hw_sensor_states_[2] = qz;  //orientation_z_ 
+    hw_sensor_states_[3] = qw;  //orientation_w_
 
-    hw_sensor_states_[7] = aa1;
-    hw_sensor_states_[8] = aa2;
-    hw_sensor_states_[9] = aa3;
+    hw_sensor_states_[4] = avx;  //angular_velocity_x_
+    hw_sensor_states_[5] = avy;  //angular_velocity_y_
+    hw_sensor_states_[6] = avz;  //angular_velocity_z_
+
+    hw_sensor_states_[7] = lax;  //linear_acceleration_x_
+    hw_sensor_states_[8] = lay;  //linear_acceleration_y_
+    hw_sensor_states_[9] = laz;  //linear_acceleration_z_
 
       // RCLCPP_INFO(
       // rclcpp::get_logger("RukaSensor"), "Got state %f for sensor %u!",
