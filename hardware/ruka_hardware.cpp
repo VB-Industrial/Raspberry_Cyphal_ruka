@@ -25,11 +25,20 @@
 #include "reg/udral/physics/kinematics/cartesian/Twist_0_1.h"
 #include "reg/udral/physics/kinematics/cartesian/State_0_1.h"
 
+#include <uavcan/_register/Access_1_0.h>
+#include <uavcan/_register/List_1_0.h>
+
 
 TYPE_ALIAS(Twist, reg_udral_physics_kinematics_cartesian_Twist_0_1)
 TYPE_ALIAS(HBeat, uavcan_node_Heartbeat_1_0)
 TYPE_ALIAS(JS_msg, reg_udral_physics_kinematics_rotation_Planar_0_1)
 TYPE_ALIAS(State, reg_udral_physics_kinematics_cartesian_State_0_1)
+
+TYPE_ALIAS(RegisterListRequest, uavcan_register_List_Request_1_0)
+TYPE_ALIAS(RegisterListResponse, uavcan_register_List_Response_1_0)
+
+TYPE_ALIAS(RegisterAccessRequest, uavcan_register_Access_Request_1_0)
+TYPE_ALIAS(RegisterAccessResponse, uavcan_register_Access_Response_1_0)
 
 std::byte buffer[sizeof(CyphalInterface) + sizeof(LinuxCAN) + sizeof(O1Allocator)];
 
@@ -76,30 +85,50 @@ public:
 JSReader_01 * JS_reader_01;
 
 
-// class IMUReader: public AbstractSubscription<Twist> {
-// public:
-//     IMUReader(InterfacePtr interface): AbstractSubscription<Twist>(interface,
-//         // Тут параметры - port_id, transfer kind или только port_id
-//         AGENT_IMU_PORT
-//     ) {};
-//     void handler(const reg_udral_physics_kinematics_cartesian_Twist_0_1& IMU_read, CanardRxTransfer* transfer) override {
-//         // std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
-//         // std::cout << "av1: " << IMU_read.linear.meter_per_second[0] << std::endl;
-//         // std::cout << "av2: " << IMU_read.linear.meter_per_second[1] << std::endl;
-//         // std::cout << "av3: " << IMU_read.linear.meter_per_second[2]<< std::endl;
-//         // std::cout << "aa1: " << IMU_read.angular.radian_per_second[0] << std::endl;
-//         // std::cout << "aa2: " << IMU_read.angular.radian_per_second[1] << std::endl;
-//         // std::cout << "aa3: " << IMU_read.angular.radian_per_second[2]<< std::endl;
+class RegisterAccessReader : public AbstractSubscription<RegisterAccessResponse> {
+public:
+    RegisterAccessReader(InterfacePtr interface): AbstractSubscription<RegisterAccessResponse>(
+        interface,
+        uavcan_register_Access_1_0_FIXED_PORT_ID_,
+        CanardTransferKindRequest
+    ) {};
+    void handler(const uavcan_register_Access_Response_1_0& reg_resp, CanardRxTransfer* transfer) override
+    {
+      std::cout << +transfer->metadata.remote_node_id << ": node_id SERVICE RESPONSE" << std::endl;
+      std::cout << +reg_resp.value.natural8.value.elements[0] <<": value"<<std::endl;
+    };
+};
 
-//         av1 = IMU_read.linear.meter_per_second[0];
-//         av2 = IMU_read.linear.meter_per_second[1];
-//         av3 = IMU_read.linear.meter_per_second[2];
-//         aa1 = IMU_read.angular.radian_per_second[0];
-//         aa2 = IMU_read.angular.radian_per_second[1];
-//         aa3 = IMU_read.angular.radian_per_second[2];
-//     }
-// };
-// IMUReader * IMU_reader;
+RegisterAccessReader * RegAccessReader;
+
+void serv_send(CanardNodeID node_id) {
+    CanardTransferID register_access_transfer = 0;
+    static uint8_t reg_access_req_buffer[RegisterAccessRequest::buffer_size];
+
+    static CanardTransferID reg_access_transfer_id = 0;
+    RegisterAccessRequest::Type reg_access_request = {0};
+
+    sprintf((char*)reg_access_request.name.name.elements, "test_reg");
+    reg_access_request.name.name.count = strlen((char*)reg_access_request.name.name.elements);
+
+    uavcan_register_Value_1_0 value = {};
+    value._tag_ = 11;
+
+    uavcan_primitive_array_Natural8_1_0 result = {};
+    result.value.elements[0] = 0;
+    result.value.count = 1;
+
+    value.natural8 = result;
+    reg_access_request.value = value;
+
+        cy_interface->send_request<RegisterAccessRequest>(
+        &reg_access_request,
+        reg_access_req_buffer,
+        uavcan_register_Access_1_0_FIXED_PORT_ID_,
+        &register_access_transfer,
+        node_id
+    );
+}
 
 
 float qw = 0.0;
@@ -288,6 +317,7 @@ CallbackReturn RukaSystem::on_init(const hardware_interface::HardwareInfo & info
   reader = new HBeatReader(cy_interface);
   JS_reader_01 = new JSReader_01(cy_interface);
   IMU_reader = new IMUReader(cy_interface);
+  RegAccessReader = new RegisterAccessReader(cy_interface);
 
   // robot has 6 joints and 2 interfaces
   joint_position_.assign(6, 0);
@@ -401,6 +431,7 @@ return_type RukaSystem::write(const rclcpp::Time &, const rclcpp::Duration &)
  if (itera > 100)
  {
     heartbeat();
+    serv_send(5);
     std::cout<<"HB sent"<<std::endl;
     itera = 0;
   }
