@@ -60,26 +60,29 @@ void heartbeat() {
     uptime += 1;
 }
 
-float j_pos_0 = 0.0;
-float j_pos_1 = 0.0;
-float j_pos_2 = 0.0;
-
-
+static float j_pos[6] = {0.0};
+static float j_vel[6] = {0.0};
+static float j_eff[6] = {0.0};
 
 class JSReader_01: public AbstractSubscription<JS_msg> {
 public:
-    JSReader_01(InterfacePtr interface): AbstractSubscription<JS_msg>(interface,
-        // Тут параметры - port_id, transfer kind или только port_id
-        AGENT_JS_SUB_PORT
+    JSReader_01(InterfacePtr interface): AbstractSubscription<JS_msg>(
+      interface,
+      AGENT_JS_SUB_PORT
     ) {};
     void handler(const reg_udral_physics_kinematics_rotation_Planar_0_1& js_read, CanardRxTransfer* transfer) override {
+      
         std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
-        std::cout << "pos: " << js_read.angular_position.radian << std::endl;
-        std::cout << "vel: " << js_read.angular_velocity.radian_per_second << std::endl;
-        std::cout << "eff: " << js_read.angular_acceleration.radian_per_second_per_second << std::endl;
-        j_pos_0 = js_read.angular_position.radian;
-        j_pos_1 = js_read.angular_velocity.radian_per_second;
-        j_pos_2 = js_read.angular_acceleration.radian_per_second_per_second;
+        j_pos[transfer->metadata.remote_node_id] = js_read.angular_position.radian;
+        j_vel[transfer->metadata.remote_node_id] = js_read.angular_velocity.radian_per_second;
+        j_eff[transfer->metadata.remote_node_id] = js_read.angular_acceleration.radian_per_second_per_second;
+
+        // std::cout << "pos: " << js_read.angular_position.radian << std::endl;
+        // std::cout << "vel: " << js_read.angular_velocity.radian_per_second << std::endl;
+        // std::cout << "eff: " << js_read.angular_acceleration.radian_per_second_per_second << std::endl;
+        // j_pos_0 = js_read.angular_position.radian;
+        // j_pos_1 = js_read.angular_velocity.radian_per_second;
+        // j_pos_2 = js_read.angular_acceleration.radian_per_second_per_second;
     }
 };
 JSReader_01 * JS_reader_01;
@@ -90,42 +93,43 @@ public:
     RegisterAccessReader(InterfacePtr interface): AbstractSubscription<RegisterAccessResponse>(
         interface,
         uavcan_register_Access_1_0_FIXED_PORT_ID_,
-        CanardTransferKindRequest
+        CanardTransferKindResponse
     ) {};
     void handler(const uavcan_register_Access_Response_1_0& reg_resp, CanardRxTransfer* transfer) override
     {
-      std::cout << +transfer->metadata.remote_node_id << ": node_id SERVICE RESPONSE" << std::endl;
-      std::cout << +reg_resp.value.natural8.value.elements[0] <<": value"<<std::endl;
+
+      std::cout << "SERVICE RESPONSE" << std::endl;
+      //std::cout << +reg_resp.value.natural8.value.elements[0] <<": value"<<std::endl;
     };
 };
 
 RegisterAccessReader * RegAccessReader;
 
-void serv_send(CanardNodeID node_id) {
-    CanardTransferID register_access_transfer = 0;
-    static uint8_t reg_access_req_buffer[RegisterAccessRequest::buffer_size];
+static CanardTransferID reg_access_transfer = 0;
 
-    static CanardTransferID reg_access_transfer_id = 0;
+void serv_send(CanardNodeID node_id) {
+    static uint8_t reg_access_req_buffer[RegisterAccessRequest::buffer_size];
+    reg_access_transfer++;
     RegisterAccessRequest::Type reg_access_request = {0};
 
     sprintf((char*)reg_access_request.name.name.elements, "test_reg");
     reg_access_request.name.name.count = strlen((char*)reg_access_request.name.name.elements);
 
     uavcan_register_Value_1_0 value = {};
-    value._tag_ = 11;
+    value._tag_ = 4;
 
-    uavcan_primitive_array_Natural8_1_0 result = {};
-    result.value.elements[0] = 0;
+    uavcan_primitive_array_Integer64_1_0 result = {};
+    result.value.elements[0] = 2; //VALUE HERE
     result.value.count = 1;
 
-    value.natural8 = result;
+    value.integer64 = result;
     reg_access_request.value = value;
 
         cy_interface->send_request<RegisterAccessRequest>(
         &reg_access_request,
         reg_access_req_buffer,
         uavcan_register_Access_1_0_FIXED_PORT_ID_,
-        &register_access_transfer,
+        &reg_access_transfer,
         node_id
     );
 }
@@ -265,7 +269,7 @@ hardware_interface::CallbackReturn RukaSensor::on_deactivate(
       hw_stop_sec_ - i);
   }
 
-  RCLCPP_INFO(
+  RCLCPP_INFO( 
     rclcpp::get_logger("RukaSensor"), "Successfully deactivated!");
   // END: This part here is for exemplary purposes - Please do not copy to your production code
 
@@ -313,7 +317,7 @@ CallbackReturn RukaSystem::on_init(const hardware_interface::HardwareInfo & info
     return CallbackReturn::ERROR;
   }
 
-  cy_interface = CyphalInterface::create_heap<LinuxCAN, O1Allocator>(100, "can0", 1000, utilities);
+  cy_interface = CyphalInterface::create_heap<LinuxCAN, O1Allocator>(100, "can0", 1000, utilities); //Node ID, transport, queue_len, utilities
   reader = new HBeatReader(cy_interface);
   JS_reader_01 = new JSReader_01(cy_interface);
   IMU_reader = new IMUReader(cy_interface);
@@ -398,23 +402,23 @@ return_type RukaSystem::read(const rclcpp::Time & /*time*/, const rclcpp::Durati
 {
   // TODO(pac48) set sensor_states_ values from subscriber
 
-  for (auto i = 0ul; i < joint_velocities_command_.size(); i++)
-  {
-    joint_velocities_[i] = joint_velocities_command_[i];
-    joint_position_[i] += joint_velocities_command_[i] * period.seconds();
-  }
+  // for (auto i = 0ul; i < joint_velocities_command_.size(); i++)
+  // {
+  //   joint_velocities_[i] = joint_velocities_command_[i];
+  //   joint_position_[i] += joint_velocities_command_[i] * period.seconds();
+  // }
 
-  for (auto i = 0ul; i < joint_position_command_.size(); i++)
-  {
-    joint_position_[i] = joint_position_command_[i];
-  }
+  // for (auto i = 0ul; i < joint_position_command_.size(); i++)
+  // {
+  //   joint_position_[i] = joint_position_command_[i];
+  // }
 
-  joint_position_[0] = j_pos_0;
-  joint_position_[1] = j_pos_1;
-  joint_position_[2] = j_pos_2;
-  joint_position_[3] = -j_pos_0;
-  joint_position_[4] = -j_pos_1;
-  joint_position_[5] = -j_pos_2;
+  // joint_position_[0] = j_pos_0;
+  // joint_position_[1] = j_pos_1;
+  // joint_position_[2] = j_pos_2;
+  // joint_position_[3] = -j_pos_0;
+  // joint_position_[4] = -j_pos_1;
+  // joint_position_[5] = -j_pos_2;
   cy_interface->loop();
   return return_type::OK;
 }
@@ -423,15 +427,19 @@ int itera = 0;
 return_type RukaSystem::write(const rclcpp::Time &, const rclcpp::Duration &)
 {
 
- // for (auto i = 0ul; i < joint_velocities_command_.size(); i++) {
-    // Simulate sending commands to the hardware
- //   printf("Got command %.5f for joint %li \n", joint_position_[i], i);
+for (auto i = 0ul; i < joint_velocities_command_.size(); i++) {
 
-  //}
- if (itera > 100)
+  }
+for (auto i = 0ul; i < joint_position_command_.size(); i++)
+  {
+    joint_position_[i] = joint_position_command_[i];
+  }
+
+
+ if (itera > 1000)
  {
     heartbeat();
-    serv_send(5);
+    //serv_send(5);
     std::cout<<"HB sent"<<std::endl;
     itera = 0;
   }
