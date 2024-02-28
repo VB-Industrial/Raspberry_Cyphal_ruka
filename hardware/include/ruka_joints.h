@@ -30,6 +30,6 @@
 
 #define AGENT_IMU_PORT 1337
 
-
+uint16_t js_sub_port_id[6] = {JS_SUB_1_PORT_ID, JS_SUB_2_PORT_ID, JS_SUB_3_PORT_ID, JS_SUB_4_PORT_ID, JS_SUB_5_PORT_ID, JS_SUB_6_PORT_ID};
 
 #endif

@@ -72,14 +72,14 @@ public:
     ) {};
     void handler(const reg_udral_physics_kinematics_rotation_Planar_0_1& js_read, CanardRxTransfer* transfer) override {
       
-        std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
+        //std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
         j_pos[transfer->metadata.remote_node_id] = js_read.angular_position.radian;
         j_vel[transfer->metadata.remote_node_id] = js_read.angular_velocity.radian_per_second;
         j_eff[transfer->metadata.remote_node_id] = js_read.angular_acceleration.radian_per_second_per_second;
 
-        // std::cout << "pos: " << js_read.angular_position.radian << std::endl;
-        // std::cout << "vel: " << js_read.angular_velocity.radian_per_second << std::endl;
-        // std::cout << "eff: " << js_read.angular_acceleration.radian_per_second_per_second << std::endl;
+        //std::cout << "pos: " << js_read.angular_position.radian << std::endl;
+        //std::cout << "vel: " << js_read.angular_velocity.radian_per_second << std::endl;
+       // std::cout << "eff: " << js_read.angular_acceleration.radian_per_second_per_second << std::endl;
         // j_pos_0 = js_read.angular_position.radian;
         // j_pos_1 = js_read.angular_velocity.radian_per_second;
         // j_pos_2 = js_read.angular_acceleration.radian_per_second_per_second;
@@ -132,6 +132,25 @@ void serv_send(CanardNodeID node_id) {
         &reg_access_transfer,
         node_id
     );
+}
+
+static CanardTransferID int_transfer_id = 0;
+
+void send_JS(CanardNodeID node_id, float pos, float vel, float eff) {
+	static uint8_t js_buffer[JS_msg::buffer_size];
+	int_transfer_id++;
+	reg_udral_physics_kinematics_rotation_Planar_0_1 js_msg =
+	{
+			.angular_position = pos,
+			.angular_velocity = vel,
+			.angular_acceleration = eff
+	};
+    cy_interface->send_msg<JS_msg>(
+		&js_msg,
+		js_buffer,
+		js_sub_port_id[node_id+1],
+		&int_transfer_id
+	);
 }
 
 
@@ -400,25 +419,17 @@ std::vector<hardware_interface::CommandInterface> RukaSystem::export_command_int
 
 return_type RukaSystem::read(const rclcpp::Time & /*time*/, const rclcpp::Duration & period)
 {
-  // TODO(pac48) set sensor_states_ values from subscriber
-
   // for (auto i = 0ul; i < joint_velocities_command_.size(); i++)
   // {
   //   joint_velocities_[i] = joint_velocities_command_[i];
   //   joint_position_[i] += joint_velocities_command_[i] * period.seconds();
   // }
 
-  // for (auto i = 0ul; i < joint_position_command_.size(); i++)
-  // {
-  //   joint_position_[i] = joint_position_command_[i];
-  // }
-
-  // joint_position_[0] = j_pos_0;
-  // joint_position_[1] = j_pos_1;
-  // joint_position_[2] = j_pos_2;
-  // joint_position_[3] = -j_pos_0;
-  // joint_position_[4] = -j_pos_1;
-  // joint_position_[5] = -j_pos_2;
+  for (auto i = 0ul; i < joint_position_.size(); i++)
+  {
+    joint_position_[i] = j_pos[i];
+    joint_velocities_[i] = j_vel[i];
+  }
   cy_interface->loop();
   return return_type::OK;
 }
@@ -426,20 +437,18 @@ return_type RukaSystem::read(const rclcpp::Time & /*time*/, const rclcpp::Durati
 int itera = 0;
 return_type RukaSystem::write(const rclcpp::Time &, const rclcpp::Duration &)
 {
+float eff = 0; //TODO get Efforrt from ROS2_Control
 
-for (auto i = 0ul; i < joint_velocities_command_.size(); i++) {
-
-  }
-for (auto i = 0ul; i < joint_position_command_.size(); i++)
-  {
-    joint_position_[i] = joint_position_command_[i];
-  }
-
+for (auto i = 0ul; i < joint_velocities_command_.size(); i++) 
+{
+send_JS(i+1, (float)joint_position_command_[i], (float)joint_velocities_command_[i], (float)eff);
+std::cout<<(float)joint_position_command_[i]<<" i: "<<i<<std::endl;
+cy_interface->loop();
+}
 
  if (itera > 1000)
  {
     heartbeat();
-    //serv_send(5);
     std::cout<<"HB sent"<<std::endl;
     itera = 0;
   }
