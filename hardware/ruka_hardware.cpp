@@ -73,9 +73,9 @@ public:
     void handler(const reg_udral_physics_kinematics_rotation_Planar_0_1& js_read, CanardRxTransfer* transfer) override {
       
         //std::cout << "Node id: " << +transfer->metadata.remote_node_id << std::endl;
-        j_pos[transfer->metadata.remote_node_id] = js_read.angular_position.radian;
-        j_vel[transfer->metadata.remote_node_id] = js_read.angular_velocity.radian_per_second;
-        j_eff[transfer->metadata.remote_node_id] = js_read.angular_acceleration.radian_per_second_per_second;
+        j_pos[transfer->metadata.remote_node_id-1] = js_read.angular_position.radian;
+        j_vel[transfer->metadata.remote_node_id-1] = js_read.angular_velocity.radian_per_second;
+        j_eff[transfer->metadata.remote_node_id-1] = js_read.angular_acceleration.radian_per_second_per_second;
 
         //std::cout << "pos: " << js_read.angular_position.radian << std::endl;
         //std::cout << "vel: " << js_read.angular_velocity.radian_per_second << std::endl;
@@ -148,7 +148,7 @@ void send_JS(CanardNodeID node_id, float pos, float vel, float eff) {
     cy_interface->send_msg<JS_msg>(
 		&js_msg,
 		js_buffer,
-		js_sub_port_id[node_id+1],
+		js_sub_port_id[node_id-1],
 		&int_transfer_id
 	);
 }
@@ -373,6 +373,7 @@ std::vector<hardware_interface::StateInterface> RukaSystem::export_state_interfa
   for (const auto & joint_name : joint_interfaces["position"])
   {
     state_interfaces.emplace_back(joint_name, "position", &joint_position_[ind++]);
+    //std::cout<<state_interfaces[ind].get_name()<<" :pos"<<std::endl;
   }
 
   ind = 0;
@@ -439,17 +440,17 @@ return_type RukaSystem::write(const rclcpp::Time &, const rclcpp::Duration &)
 {
 float eff = 0; //TODO get Efforrt from ROS2_Control
 
-for (auto i = 0ul; i < joint_velocities_command_.size(); i++) 
+for (auto i = 0ul; i < joint_velocities_command_.size() ; i++) //
 {
 send_JS(i+1, (float)joint_position_command_[i], (float)joint_velocities_command_[i], (float)eff);
-std::cout<<(float)joint_position_command_[i]<<" i: "<<i<<std::endl;
+//std::cout<<(float)joint_velocities_command_[i]<<" i: "<<i<<std::endl;
 cy_interface->loop();
 }
 
  if (itera > 1000)
  {
     heartbeat();
-    std::cout<<"HB sent"<<std::endl;
+    //std::cout<<"HB sent"<<std::endl;
     itera = 0;
   }
   cy_interface->loop();
