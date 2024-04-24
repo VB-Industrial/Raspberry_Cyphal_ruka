@@ -45,4 +45,5 @@ sudo apt-get install can-utils
 
 # Run
 ros2 launch ruka with_cont.launch.py  //на распбери
+
 ros2 launch ruka without_cont.launch.py // на компе
