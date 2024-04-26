@@ -63,7 +63,7 @@ cd ~/ws_moveit/src
 
 git clone https://github.com/VB-Industrial/Raspberry_Cyphal_ruka
 
-colcon build —-packages-select ruka
+colcon build --packages-select ruka
 
 # CAN
 sudo apt-get install can-utils
