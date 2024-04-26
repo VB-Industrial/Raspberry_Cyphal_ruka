@@ -53,10 +53,9 @@ std::shared_ptr<CyphalInterface> cy_interface;
 
 uint32_t uptime = 0;
 void heartbeat() {
-    static uint8_t hbeat_buffer[HBeat::buffer_size];
     static CanardTransferID hbeat_transfer_id = 0;
     HBeat::Type heartbeat_msg = {.uptime = uptime, .health = {uavcan_node_Health_1_0_NOMINAL}, .mode = {uavcan_node_Mode_1_0_OPERATIONAL}};
-    cy_interface->send_msg<HBeat>(&heartbeat_msg, hbeat_buffer, uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_, &hbeat_transfer_id);
+    cy_interface->send_msg<HBeat>(&heartbeat_msg, uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_, &hbeat_transfer_id);
     uptime += 1;
 }
 
@@ -108,7 +107,6 @@ RegisterAccessReader * RegAccessReader;
 static CanardTransferID reg_access_transfer = 0;
 
 void serv_send(CanardNodeID node_id) {
-    static uint8_t reg_access_req_buffer[RegisterAccessRequest::buffer_size];
     reg_access_transfer++;
     RegisterAccessRequest::Type reg_access_request = {0};
 
@@ -127,7 +125,6 @@ void serv_send(CanardNodeID node_id) {
 
         cy_interface->send_request<RegisterAccessRequest>(
         &reg_access_request,
-        reg_access_req_buffer,
         uavcan_register_Access_1_0_FIXED_PORT_ID_,
         &reg_access_transfer,
         node_id
@@ -137,7 +134,6 @@ void serv_send(CanardNodeID node_id) {
 static CanardTransferID int_transfer_id = 0;
 
 void send_JS(CanardNodeID node_id, float pos, float vel, float eff) {
-	static uint8_t js_buffer[JS_msg::buffer_size];
 	int_transfer_id++;
 	reg_udral_physics_kinematics_rotation_Planar_0_1 js_msg =
 	{
@@ -147,7 +143,6 @@ void send_JS(CanardNodeID node_id, float pos, float vel, float eff) {
 	};
     cy_interface->send_msg<JS_msg>(
 		&js_msg,
-		js_buffer,
 		js_sub_port_id[node_id-1],
 		&int_transfer_id
 	);

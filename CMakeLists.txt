@@ -10,7 +10,7 @@ if(DEFINED ENV{<CYPHAL_DIR>})
     set(CYPHAL_DIR $ENV{CYPHAL_DIR})
 else()
     get_filename_component(CYPHAL_DIR
-                           "../../libcxxcanard"
+                           "../libcxxcanard"
                            ABSOLUTE)
 endif()
 message(STATUS "${CMAKE_CURRENT_LIST_DIR} | Using <${CYPHAL_DIR}> as directory of libcxxcanard")
