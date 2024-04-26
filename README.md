@@ -55,11 +55,9 @@ sudo apt install ros-iron-moveit-planners-chomp
 sudo apt-get install ros-iron-imu-tools
 
 # Cyphal
-cd ~/ws_moveit
+cd ~/ws_moveit/src
 
 git clone https://github.com/VBCores/libcxxcanard
-
-cd ~/ws_moveit/src
 
 git clone https://github.com/VB-Industrial/Raspberry_Cyphal_ruka
 
