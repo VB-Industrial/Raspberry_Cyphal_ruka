@@ -32,6 +32,11 @@ sudo apt install ros-iron-desktop
 echo 'source  /opt/ros/iron/setup.bash' >> ~/.bashrc
 
 # ROS WS
+
+sudo rosdep init
+
+rosdep update
+
 sudo apt update && rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 mkdir -p ~/ws_moveit/src
