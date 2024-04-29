@@ -66,6 +66,8 @@ git clone https://github.com/VBCores/libcxxcanard
 
 git clone https://github.com/VB-Industrial/Raspberry_Cyphal_ruka
 
+cd ~/ws_moveit/
+
 colcon build --packages-select ruka
 
 # CAN
