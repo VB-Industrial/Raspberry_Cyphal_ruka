@@ -28,6 +28,84 @@
         <joint name="link_05__link_06" value="0"/>
     </group_state>
    
+
+    <group_state name="vertical" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="0"/>
+        <joint name="link_01__link_02" value="-1.57"/>
+        <joint name="link_02__link_03" value="3.14"/>
+        <joint name="link_03__link_04" value="0"/>
+        <joint name="link_04__link_05" value="0"/>
+        <joint name="link_05__link_06" value="0"/>
+    </group_state>
+
+    <group_state name="g" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="0"/>
+        <joint name="link_01__link_02" value="-1.57"/>
+        <joint name="link_02__link_03" value="1.57"/>
+        <joint name="link_03__link_04" value="0"/>
+        <joint name="link_04__link_05" value="0"/>
+        <joint name="link_05__link_06" value="0"/>
+    </group_state>
+
+
+    <group_state name="upper_1" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="-1.029"/> 
+        <joint name="link_01__link_02" value="-2.285"/> 
+        <joint name="link_02__link_03" value="2.582"/>
+        <joint name="link_03__link_04" value="-1.605"/>
+        <joint name="link_04__link_05" value="1.134"/>
+        <joint name="link_05__link_06" value="0.349"/>
+    </group_state>
+
+    <group_state name="upper_2" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="1.273"/> 
+        <joint name="link_01__link_02" value="-2.163"/> 
+        <joint name="link_02__link_03" value="2.495"/>
+        <joint name="link_03__link_04" value="-1.51"/>
+        <joint name="link_04__link_05" value="-1.134"/>
+        <joint name="link_05__link_06" value="0.297"/>
+    </group_state>
+
+
+    <group_state name="lower_1" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="-2.372"/> 
+        <joint name="link_01__link_02" value="-2.215"/> 
+        <joint name="link_02__link_03" value="1.535"/>
+        <joint name="link_03__link_04" value="-1.361"/>
+        <joint name="link_04__link_05" value="1.361"/>
+        <joint name="link_05__link_06" value="0.802"/>
+    </group_state>
+
+    <group_state name="lower_2" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="0.174"/> 
+        <joint name="link_01__link_02" value="-2.32"/> 
+        <joint name="link_02__link_03" value="1.465"/>
+        <joint name="link_03__link_04" value="1.326"/>
+        <joint name="link_04__link_05" value="1.395"/>
+        <joint name="link_05__link_06" value="-0.785"/>
+    </group_state>
+
+    <group_state name="super_lower_1" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="-1.273"/> 
+        <joint name="link_01__link_02" value="-2.843"/> 
+        <joint name="link_02__link_03" value="1.744"/>
+        <joint name="link_03__link_04" value="-1.221"/>
+        <joint name="link_04__link_05" value="1.378"/>
+        <joint name="link_05__link_06" value="2.024"/>
+    </group_state>
+
+
+    <group_state name="super_lower_2" group="ruka_arm_controller">
+        <joint name="base_link__link_01" value="0.645"/> 
+        <joint name="link_01__link_02" value="-2.651"/> 
+        <joint name="link_02__link_03" value="1.465"/>
+        <joint name="link_03__link_04" value="0.785"/>
+        <joint name="link_04__link_05" value="1.239"/>
+        <joint name="link_05__link_06" value="1.343"/>
+    </group_state>
+
+
+
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
