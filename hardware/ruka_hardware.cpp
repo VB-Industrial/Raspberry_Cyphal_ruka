@@ -438,7 +438,7 @@ float eff = 0; //TODO get Efforrt from ROS2_Control
 for (auto i = 0ul; i < joint_velocities_command_.size() ; i++) //
 {
 send_JS(i+1, (float)joint_position_command_[i], (float)joint_velocities_command_[i], (float)eff);
-//std::cout<<(float)joint_velocities_command_[i]<<" i: "<<i<<std::endl;
+std::cout<<"jn: "<<i<<" pos: "<<joint_position_command_[i]<<std::endl;
 cy_interface->loop();
 }
 
