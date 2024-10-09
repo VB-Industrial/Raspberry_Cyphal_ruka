@@ -24,7 +24,7 @@ def generate_launch_description():
 
     ros2_control_hardware_type = DeclareLaunchArgument(
         "ros2_control_hardware_type",
-       default_value="joint_trajectory_controller",
+       default_value="ruka",
        description="Specify the hardware type for ros2_control.",
     )
 
@@ -126,17 +126,17 @@ def generate_launch_description():
         ],
     )
 
-    ruka_arm_controller_spawner = Node(
+    ruka_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=["ruka_arm_controller", "-c", "/controller_manager"],
     )
+
     sensor_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["is_broadcaster", "--controller-manager", "/controller_manager"],
+        arguments=["imu_broadcaster", "--controller-manager", "/controller_manager"],
     )
-
 
     # Warehouse mongodb server
     db_config = LaunchConfiguration("db")
@@ -162,8 +162,8 @@ def generate_launch_description():
             
             ros2_control_node,
             joint_state_broadcaster_spawner,
-            ruka_arm_controller_spawner,
-            sensor_spawner, 
+            ruka_controller_spawner,
+            sensor_spawner,
             mongodb_server_node,
         ]
     )

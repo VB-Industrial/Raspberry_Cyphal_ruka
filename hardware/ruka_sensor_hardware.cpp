@@ -1,6 +1,5 @@
 
 #include "ruka_sensor_hardware.hpp"
-#include "ruka_joints.h"
 
 #include <chrono>
 #include <cmath>
@@ -10,11 +9,6 @@
 
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
-
-
-
-TYPE_ALIAS(JS_msg, reg_udral_physics_kinematics_rotation_Planar_0_1)
-
 
 namespace ruka
 {
@@ -103,21 +97,21 @@ hardware_interface::return_type RukaSensor::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  RCLCPP_INFO(rclcpp::get_logger("RukaSensor"), "Reading...");
+  // RCLCPP_INFO(rclcpp::get_logger("RukaSensor"), "Reading...");
 
-  for (uint i = 0; i < hw_sensor_states_.size(); i++)
-  {
-    // Simulate RRBot's sensor data
-    unsigned int seed = time(NULL) + i;
-    hw_sensor_states_[i] = 5.0;
-      //static_cast<float>(rand_r(&seed)) / (static_cast<float>(RAND_MAX / hw_sensor_change_));
-    RCLCPP_INFO(
-      rclcpp::get_logger("RukaSensor"), "Got state %e for sensor %u!",
-      hw_sensor_states_[i], i);
-  }
-  RCLCPP_INFO(
-    rclcpp::get_logger("RukaSensor"), "Joints successfully read!");
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
+  // for (uint i = 0; i < hw_sensor_states_.size(); i++)
+  // {
+  //   // Simulate RRBot's sensor data
+  //   unsigned int seed = time(NULL) + i;
+  //   hw_sensor_states_[i] = 5.0;
+  //     //static_cast<float>(rand_r(&seed)) / (static_cast<float>(RAND_MAX / hw_sensor_change_));
+  //   RCLCPP_INFO(
+  //     // rclcpp::get_logger("RukaSensor"), "Got state %e for sensor %u!",
+  //     hw_sensor_states_[i], i);
+  // }
+  // RCLCPP_INFO(
+  //  );
+  // // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   return hardware_interface::return_type::OK;
 }

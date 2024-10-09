@@ -44,9 +44,11 @@ private:
   double hw_start_sec_;
   double hw_stop_sec_;
   
+
   // Store the sensor states for the simulated robot
   std::vector<double> hw_sensor_states_;
 };
 
 }  
-#endif 
+#endif  
+

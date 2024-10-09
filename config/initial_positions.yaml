@@ -1,4 +1,4 @@
-# Default initial positions for ruka's ros2_control fake system
+# Default initial positions for vr_hand's ros2_control fake system
 
 initial_positions:
   base_link__link_01: 0

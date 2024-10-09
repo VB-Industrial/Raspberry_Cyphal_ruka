@@ -9,6 +9,7 @@ from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
 
 
+
 def generate_launch_description():
 
     # Command-line arguments
@@ -44,7 +45,7 @@ def generate_launch_description():
         )
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_pipelines(
-            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+            pipelines=["chomp", "pilz_industrial_motion_planner", "ompl"]
         )
         .to_moveit_configs()
     )
@@ -88,10 +89,10 @@ def generate_launch_description():
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="log",
-        arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "base_link__link_01"],
+        arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "base_link"],
     )
 
-    # Publish TF
+    # # # Publish TF
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
@@ -100,7 +101,7 @@ def generate_launch_description():
         parameters=[moveit_config.robot_description],
     )
 
-    # ros2_control using FakeSystem as hardware
+    # ros2_control
     ros2_controllers_path = os.path.join(
         get_package_share_directory("ruka"),
         "config",
@@ -133,12 +134,6 @@ def generate_launch_description():
     )
 
 
-    sensor_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["is_broadcaster", "--controller-manager", "/controller_manager"],
-    )
-
     # Warehouse mongodb server
     db_config = LaunchConfiguration("db")
     mongodb_server_node = Node(
@@ -153,19 +148,29 @@ def generate_launch_description():
         condition=IfCondition(db_config),
     )
 
+    
+
     return LaunchDescription(
         [
-            rviz_config_arg,
             db_arg,
             ros2_control_hardware_type,
-            rviz_node,
+           
             static_tf_node,
             robot_state_publisher,
-            move_group_node,
+            
             ros2_control_node,
             joint_state_broadcaster_spawner,
             ruka_arm_controller_spawner,
-            sensor_spawner,
+            # sensor_spawner,
             mongodb_server_node,
+            rviz_config_arg,
+       
+           
+            rviz_node,
+        
+            move_group_node,
+          
+            
+            
         ]
     )

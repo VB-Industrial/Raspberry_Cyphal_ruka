@@ -45,7 +45,7 @@ def generate_launch_description():
         )
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_pipelines(
-            pipelines=["ompl", "chomp", "pilz_industrial_motion_planner"]
+            pipelines=["chomp", "pilz_industrial_motion_planner"]
         )
         .to_moveit_configs()
     )
@@ -161,9 +161,3 @@ def generate_launch_description():
             mongodb_server_node,
         ]
     )
-
-            # ros2_control_node,
-            # joint_state_broadcaster_spawner,
-            # ruka_arm_controller_spawner, ros2_control_hardware_type, static_tf_node,
-            # robot_state_publisher,    static_tf_node,
-            # robot_state_publisher,
