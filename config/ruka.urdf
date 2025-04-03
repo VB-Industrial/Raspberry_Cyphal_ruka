@@ -33,7 +33,7 @@
     <joint name="base_link__link_01" type="revolute">
         <axis xyz="0 0 1"/>
 
-        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.908" soft_upper_limit="2.908" />
+        <safety_controller k_position="100.0" k_velocity="200.0" soft_lower_limit="-2.908" soft_upper_limit="2.908" />
 
         <limit effort="1000.0" lower="-2.96" upper="2.96" velocity="0.5"/>
         <origin rpy="0 0 0" xyz="0 0 0.03"/>
